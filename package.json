@@ -6,7 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "format:fix": "prettier --write .",
+    "ff": "pnpm format:fix",
+    "format:check": "prettier --check .",
+    "fc": "pnpm format:check"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.49.4",
