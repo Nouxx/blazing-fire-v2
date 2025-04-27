@@ -1,4 +1,4 @@
-import FetchDataSteps from "@/components/tutorial/fetch-data-steps";
+import Instruments, { Instrument } from "@/components/Instruments";
 import { createClient } from "@/utils/supabase/server";
 import { InfoIcon } from "lucide-react";
 import { redirect } from "next/navigation";
@@ -13,6 +13,8 @@ export default async function ProtectedPage() {
   if (!user) {
     return redirect("/sign-in");
   }
+
+  const { data: instruments } = await supabase.from("instruments").select();
 
   return (
     <div className="flex-1 w-full flex flex-col gap-12">
@@ -29,9 +31,9 @@ export default async function ProtectedPage() {
           {JSON.stringify(user, null, 2)}
         </pre>
       </div>
-      <div>
-        <h2 className="font-bold text-2xl mb-4">Next steps</h2>
-        <FetchDataSteps />
+      <div className="flex flex-col gap-2 items-start">
+        <h2 className="font-bold text-2xl mb-4">Your Supabase dummy data</h2>
+        <Instruments instruments={instruments as Instrument[]} />
       </div>
     </div>
   );
