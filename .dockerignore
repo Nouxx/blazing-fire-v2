@@ -1,0 +1,10 @@
+# node dependencies
+node_modules
+
+# next artifacts
+.next
+
+# tests artifacts
+playwright-**
+test-**
+tests-**

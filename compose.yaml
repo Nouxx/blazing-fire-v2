@@ -1,0 +1,12 @@
+name: blazing-fire
+
+services:
+  test:
+    container_name: playwright-test-runner
+    build:
+      dockerfile: docker/test.Dockerfile
+      context: .
+    ipc: host
+    init: true
+    network_mode: host
+    command: pnpm test:e2e:docker

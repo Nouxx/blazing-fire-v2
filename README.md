@@ -28,3 +28,14 @@ Supabase
 ```bash
 supabase start # or stop
 ```
+
+### Test
+
+- E2E Tests: End to end tests of the running app with all its dependencies
+    - build artifact (no dev server)
+    - no visual testing (only DOM assertions)
+- UI Tests: Visual tests of components of the app
+    - functional components (no full page, no core UI design system)
+
+```bash
+```
