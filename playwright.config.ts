@@ -42,6 +42,6 @@ export default defineConfig({
 
   webServer: {
     command: "pnpm build && pnpm start",
-    url: "http://127.0.0.1:3000",
+    url: "http://127.0.0.1:3001", // todo: refactor with a shared ENV variable ("NEXT_START_URL")
   },
 });

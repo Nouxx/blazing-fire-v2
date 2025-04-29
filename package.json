@@ -2,9 +2,9 @@
   "name": "blazing-fire-v2",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --port 3000",
     "build": "next build",
-    "start": "next start",
+    "start": "next start --port 3001",
     "lint": "next lint",
     "format:fix": "prettier --write .",
     "ff": "pnpm format:fix",

@@ -6,6 +6,9 @@ services:
     build:
       dockerfile: docker/test.Dockerfile
       context: .
+    volumes:
+      - .:/app:rw # mount all project files in /app
+      - /app/node_modules # anonymous volume to avoid node_modules conflict with the host
     ipc: host
     init: true
     network_mode: host

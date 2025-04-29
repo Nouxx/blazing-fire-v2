@@ -19,6 +19,8 @@ pnpm dev # runs the "dev" script in package.json
 
 ### Dev
 
+Launch the dev environment in `localhost:3000`
+
 ```bash
 pnpm dev
 ```
