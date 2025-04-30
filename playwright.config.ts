@@ -1,47 +1,34 @@
 import { defineConfig, devices } from "@playwright/test";
 
-/**
- * Read environment variables from file.
- * https://github.com/motdotla/dotenv
- */
-// import dotenv from 'dotenv';
-// import path from 'path';
-// dotenv.config({ path: path.resolve(__dirname, '.env') });
+// Read environment variables from "env.local" file
+import dotenv from "dotenv";
+import path from "path";
+dotenv.config({ path: path.resolve(__dirname, ".env.local") });
 
-/**
- * See https://playwright.dev/docs/test-configuration.
- */
+const { NEXT_START_PORT } = process.env;
+const NEXT_TEST_URL = `http://localhost:${NEXT_START_PORT}`;
+
 export default defineConfig({
   testDir: "./e2e",
-  /* Run tests in files in parallel */
   fullyParallel: true,
-  /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
-  /* Retry on CI only */
-  retries: process.env.CI ? 2 : 0,
-  /* Opt out of parallel tests on CI. */
-  workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  retries: process.env.CI ? 2 : 0, // retry on CI only
+  workers: process.env.CI ? 1 : undefined, // ppt out of parallel tests on CI.
   reporter: "html",
-  /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
-    /* Base URL to use in actions like `await page.goto('/')`. */
-    // baseURL: 'http://127.0.0.1:3000',
-
-    /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: "on-first-retry",
+    baseURL: NEXT_TEST_URL,
+    trace: "retain-on-failure",
+    screenshot: "only-on-failure",
   },
-
-  /* Configure projects for major browsers */
   projects: [
     {
       name: "chromium",
       use: { ...devices["Desktop Chrome"] },
     },
   ],
-
   webServer: {
     command: "pnpm build && pnpm start",
-    url: "http://127.0.0.1:3001", // todo: refactor with a shared ENV variable ("NEXT_START_URL")
+    url: NEXT_TEST_URL,
+    name: "Next.js production build",
   },
 });

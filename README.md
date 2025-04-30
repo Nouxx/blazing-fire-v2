@@ -34,10 +34,21 @@ supabase start # or stop
 ### Test
 
 - E2E Tests: End to end tests of the running app with all its dependencies
-    - build artifact (no dev server)
-    - no visual testing (only DOM assertions)
-- UI Tests: Visual tests of components of the app
-    - functional components (no full page, no core UI design system)
+  - build artifact (no dev server)
+  - no visual testing (only DOM assertions)
+
+#### UI Tests
+
+Visual tests of components of the app.
+
+- functional components (no full page, no core UI design system)
+- must be in Docker to avoid screenshot comparison flakiness: runs always on the same OS
+
+Since it's in Docker, the test service must be rebuilt once there's a change in the app dependencies
+
+No need to rebuild it when the app code changes
 
 ```bash
+docker compose build test
+# or "dcb test" with oh-my-zsh plugin
 ```
