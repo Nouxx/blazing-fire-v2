@@ -46,7 +46,9 @@ Visual tests of components of the app.
 
 Since it's in Docker, the test service must be rebuilt once there's a change in the app dependencies
 
-No need to rebuild it when the app code changes
+No need to rebuild it when the app code changes, as it its shared with a volume.
+
+Don't run the UI tests on the host, as snapshots might be different.
 
 ```bash
 docker compose build test

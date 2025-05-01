@@ -10,8 +10,10 @@
     "ff": "pnpm format:fix",
     "format:check": "prettier --check .",
     "fc": "pnpm format:check",
-    "test:e2e": "docker compose run --rm -P test",
-    "test:e2e:docker": "playwright test"
+    "test:ui": "docker compose run --rm -P test pnpm test:ui:docker",
+    "test:e2e": "docker compose run --rm -P test pnpm test:e2e:docker",
+    "test:e2e:docker": "playwright test",
+    "test:ui:docker": "playwright test -c playwright-ct.config.ts"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.1",
@@ -31,6 +33,7 @@
     "react-dom": "19.0.0"
   },
   "devDependencies": {
+    "@playwright/experimental-ct-react": "^1.52.0",
     "@playwright/test": "1.52.0",
     "@types/node": "22.10.2",
     "@types/react": "^19.0.2",
