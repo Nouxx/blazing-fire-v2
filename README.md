@@ -56,3 +56,11 @@ docker compose build test
 ```
 
 Reports from UI will override the one from E2E and vice versa
+
+There is a problem with font rendering on linux atm:
+
+- [issue](https://github.com/microsoft/playwright/issues/22429)
+- [issue](https://github.com/microsoft/playwright/issues/30785)
+- [issue](https://stackoverflow.com/questions/75374652/playwright-tests-inside-docker-fails-to-load-fonts)
+
+todo: fix this when setting up font across the project
