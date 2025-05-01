@@ -8,8 +8,14 @@ services:
       context: .
     volumes:
       - .:/app:rw # mount all project files in /app
-      - /app/node_modules # anonymous volume to avoid node_modules conflict with the host
+      # anonymous volumes to avoid conflict with the host
+      - /app/node_modules
+      - /app/playwright/.cache
     ipc: host
     init: true
-    network_mode: host
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - 9323:9323
     command: pnpm test:e2e:docker
+    # todo: make report available
