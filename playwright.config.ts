@@ -13,12 +13,12 @@ export default defineConfig({
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0, // retry on CI only
-  workers: process.env.CI ? 1 : undefined, // ppt out of parallel tests on CI.
-  reporter: "html",
+  workers: process.env.CI ? 1 : undefined, // opt out of parallel tests on CI.
+  reporter: [["html", { open: "never" }]], // the report is only accessible from the host
   use: {
     baseURL: NEXT_TEST_URL,
     trace: "retain-on-failure",
-    screenshot: "only-on-failure",
+    video: "retain-on-failure",
   },
   projects: [
     {

@@ -54,3 +54,5 @@ Don't run the UI tests on the host, as snapshots might be different.
 docker compose build test
 # or "dcb test" with oh-my-zsh plugin
 ```
+
+Reports from UI will override the one from E2E and vice versa
