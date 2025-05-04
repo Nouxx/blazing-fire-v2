@@ -1,9 +1,9 @@
 import { signOutAction } from "@/app/actions";
 import Link from "next/link";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { createClient } from "@/utils/supabase/server";
 
-export default async function AuthButton() {
+export const HeaderAuth = async () => {
   const supabase = await createClient();
 
   const {
@@ -29,4 +29,4 @@ export default async function AuthButton() {
       </Button>
     </div>
   );
-}
+};
