@@ -5,4 +5,14 @@
       "name": "blazing-fire",
     },
   ],
+  "extensions": {
+    "recommendations": [
+      "streetsidesoftware.code-spell-checker"
+    ]
+  },
+  "settings": {
+    "cSpell.words": [
+      "supabase"
+    ]
+  },
 }
