@@ -2,7 +2,7 @@ import Link from "next/link";
 import { AppLogo } from "../AppLogo/AppLogo"; // todo: use alias import
 import { HeaderAuth } from "../HeaderAuth/HeaderAuth";
 import { ThemeSwitcher } from "../ThemeSwitcher/ThemeSwitcher";
-import { User } from "@supabase/supabase-js";
+import type { User } from "@supabase/supabase-js";
 
 type HeaderProps = {
   user: User | null;
