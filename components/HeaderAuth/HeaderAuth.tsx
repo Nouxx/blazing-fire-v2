@@ -1,23 +1,23 @@
-import { signOutAction } from "@/app/actions";
+// todo: move under /Header with composition
+// import { signOutAction } from "@/app/actions";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { createClient } from "@/utils/supabase/server";
+import type { User } from "@supabase/supabase-js";
+import { useLogout } from "@/app/hooks/useLogout.hooks";
 
-export const HeaderAuth = async () => {
-  const supabase = await createClient();
+type HeaderAuthProps = {
+  user: User | null;
+};
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+export const HeaderAuth = ({ user }: HeaderAuthProps) => {
+  const { logout } = useLogout(); // todo: fix
 
   return user ? (
     <div className="flex items-center gap-4">
       Hey, {user.email}!
-      <form action={signOutAction}>
-        <Button type="submit" variant={"outline"}>
-          Sign out
-        </Button>
-      </form>
+      <Button variant={"outline"} onClick={logout}>
+        Sign out
+      </Button>
     </div>
   ) : (
     <div className="flex gap-2">

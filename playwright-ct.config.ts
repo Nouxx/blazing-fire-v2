@@ -1,4 +1,5 @@
 import { defineConfig, devices } from "@playwright/experimental-ct-react";
+import { resolve } from "path";
 
 export default defineConfig({
   testDir: "./components",
@@ -14,6 +15,13 @@ export default defineConfig({
     trace: "retain-on-failure",
     video: "retain-on-failure",
     ctPort: 3100,
+    ctViteConfig: {
+      resolve: {
+        alias: {
+          '@': resolve(__dirname),
+        },
+      },
+    }
   },
   projects: [
     {
