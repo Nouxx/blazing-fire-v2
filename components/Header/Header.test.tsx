@@ -1,13 +1,13 @@
 import { test, expect } from "@playwright/experimental-ct-react";
-import { Header } from "./Header";
 import { MOCK_USER } from "@/mocks/user.mock";
+import { AppHeader } from "@/components/Header/views/AppHeader";
 
-test("UI check with logged in user", async ({ mount }) => {
-  const component = await mount(<Header user={MOCK_USER} />);
+test("AppHeader with logged in user", async ({ mount }) => {
+  const component = await mount(<AppHeader user={MOCK_USER} />);
   await expect(component).toHaveScreenshot();
 });
 
-test("UI check without user", async ({ mount }) => {
-  const component = await mount(<Header user={null} />);
+test("AppHeader without user", async ({ mount }) => {
+  const component = await mount(<AppHeader user={null} />);
   await expect(component).toHaveScreenshot();
 });

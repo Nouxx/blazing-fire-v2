@@ -43,6 +43,7 @@ Visual tests of components of the app.
 
 - functional components (no full page, no core UI design system)
 - must be in Docker to avoid screenshot comparison flakiness: runs always on the same OS
+- tested components must follow the [presentational pattern](https://www.patterns.dev/react/presentational-container-pattern): tested components are the presentation layer thats only gets plain javascript objects so it's easy to mock and does not screw up playwright experimental components testing features.
 
 Since it's in Docker, the test service must be rebuilt once there's a change in the app dependencies
 
@@ -64,3 +65,17 @@ There is a problem with font rendering on linux atm:
 - [issue](https://stackoverflow.com/questions/75374652/playwright-tests-inside-docker-fails-to-load-fonts)
 
 todo: fix this when setting up font across the project
+
+## TO note
+
+Counpound components are not writable with one single imported object
+
+```tsx
+import { MyComp } from "./MyComp";
+
+<MyComp>
+  <MyComp.SubComponent />
+</MyComp>
+```
+
+https://github.com/vercel/next.js/issues/44030

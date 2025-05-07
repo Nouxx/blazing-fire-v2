@@ -1,12 +1,12 @@
 import { createClient } from "@/utils/supabase/server";
-import { Header } from "./Header";
+import { AppHeader } from "@/components/Header/views/AppHeader";
 
-export const HeaderContainer = async () => {
+export const AppHeaderContainer = async () => {
   const supabase = await createClient();
 
   const {
     data: { user },
   } = await supabase.auth.getUser(); // todo: put this in a context
 
-  return <Header user={user} />;
+  return <AppHeader user={user} />;
 };
