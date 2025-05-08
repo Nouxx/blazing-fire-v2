@@ -10,11 +10,12 @@
     "ff": "pnpm format:fix",
     "format:check": "prettier --check .",
     "fc": "pnpm format:check",
+    "test": "vitest",
     "test:ui": "rm -rf playwright/.cache && docker compose run --rm -P test pnpm test:ui:docker",
+    "test:ui:docker": "playwright test -c playwright-ct.config.ts",
     "test:e2e": "docker compose run --rm -P test pnpm test:e2e:docker",
-    "test:report": "pnpm exec playwright show-report",
-    "test:e2e:docker": "playwright test",
-    "test:ui:docker": "playwright test -c playwright-ct.config.ts"
+    "test:e2e:docker": "playwright test -c playwright.config.ts",
+    "test:report": "pnpm exec playwright show-report"
   },
   "dependencies": {
     "@radix-ui/react-checkbox": "^1.1.1",

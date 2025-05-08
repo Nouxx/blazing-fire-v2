@@ -38,7 +38,6 @@ export const Flex = ({
   align,
   fullWidth,
   children,
-  ...props
 }: FlexProps) => {
   return (
     <div
