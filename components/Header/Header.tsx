@@ -10,18 +10,13 @@ import { Button } from "@/components/ui/button";
 
 export type HeaderProps = {
   user: User | null;
-} & PropsWithChildren;
-
-// todo: share types
-type HeaderContext = {
-  user: User | null;
 };
 
-const HeaderContext = createContext<HeaderContext>({ user: null });
+const HeaderContext = createContext<HeaderProps>({ user: null });
 
 // todo: use hooks instead to consume context
 
-export const Header = ({ children, user }: HeaderProps) => {
+export const Header = ({ children, user }: HeaderProps & PropsWithChildren) => {
   return (
     <HeaderContext.Provider value={{ user }}>
       <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
