@@ -6,10 +6,10 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { SmtpMessage } from "../smtp-message";
 
-export default async function ForgotPassword(props: {
+export default async function ForgotPassword(properties: {
   searchParams: Promise<Message>;
 }) {
-  const searchParams = await props.searchParams;
+  const searchParameters = await properties.searchParams;
   return (
     <>
       <form className="flex-1 flex flex-col w-full gap-2 text-foreground [&>input]:mb-6 min-w-64 max-w-64 mx-auto">
@@ -28,7 +28,7 @@ export default async function ForgotPassword(props: {
           <SubmitButton formAction={forgotPasswordAction}>
             Reset Password
           </SubmitButton>
-          <FormMessage message={searchParams} />
+          <FormMessage message={searchParameters} />
         </div>
       </form>
       <SmtpMessage />

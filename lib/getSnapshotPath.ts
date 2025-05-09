@@ -4,10 +4,13 @@
  * Example: `"Header with logged in user"` > `"Header-with-logged-in-user.png"`
  */
 export const getSnapshotPath = (userFriendlyString: string) => {
-  return userFriendlyString
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s]/g, "") // Remove non-alphanumeric characters except space
-    .replace(/\s+/g, "-") // Replace spaces with hyphens
-    .concat(".png"); // Append file extension
+  return (
+    userFriendlyString
+      .toLowerCase()
+      .trim()
+      .replaceAll(/[^\d\sa-z]/g, "") // Remove non-alphanumeric characters except space
+      // should fail
+      .replace(/\s+/g, "-") + // Replace spaces with hyphens
+    ".png" // Append file extension
+  );
 };

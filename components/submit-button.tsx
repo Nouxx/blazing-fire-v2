@@ -4,19 +4,19 @@ import { Button } from "@/components/ui/button";
 import { type ComponentProps } from "react";
 import { useFormStatus } from "react-dom";
 
-type Props = ComponentProps<typeof Button> & {
+type Properties = ComponentProps<typeof Button> & {
   pendingText?: string;
 };
 
 export function SubmitButton({
   children,
   pendingText = "Submitting...",
-  ...props
-}: Props) {
+  ...properties
+}: Properties) {
   const { pending } = useFormStatus();
 
   return (
-    <Button type="submit" aria-disabled={pending} {...props}>
+    <Button type="submit" aria-disabled={pending} {...properties}>
       {pending ? pendingText : children}
     </Button>
   );

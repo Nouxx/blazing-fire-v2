@@ -9,11 +9,11 @@ const typographyVariants = cva("", {
   },
 });
 
-interface TypographyProps
+interface TypographyProperties
   extends React.HTMLAttributes<HTMLParagraphElement>,
     VariantProps<typeof typographyVariants> {}
 
-export const Typography = ({ className, font, children }: TypographyProps) => {
+export const Typography = ({ className, font, children }: TypographyProperties) => {
   return (
     <p className={cn(typographyVariants({ font, className }))}>{children}</p>
   );
