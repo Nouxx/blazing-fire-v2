@@ -10,7 +10,7 @@ export const getSnapshotPath = (userFriendlyString: string) => {
       .trim()
       .replaceAll(/[^\d\sa-z]/g, "") // Remove non-alphanumeric characters except space
       // should fail
-      .replace(/\s+/g, "-") + // Replace spaces with hyphens
+      .replaceAll(/\s+/g, "-") + // Replace spaces with hyphens
     ".png" // Append file extension
   );
 };
