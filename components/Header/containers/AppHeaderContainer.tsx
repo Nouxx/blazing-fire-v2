@@ -1,5 +1,5 @@
-import { createClient } from "@/utils/supabase/server";
 import { AppHeader } from "@/components/Header/views/AppHeader";
+import { createClient } from "@/utils/supabase/server";
 
 export const AppHeaderContainer = async () => {
   const supabase = await createClient();

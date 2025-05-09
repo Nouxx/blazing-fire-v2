@@ -1,8 +1,10 @@
+import "./globals.css";
+
 import { Geist } from "next/font/google";
 import { ThemeProvider } from "next-themes";
-import "./globals.css";
-import { AppHeaderContainer } from "@/components/Header/containers/AppHeaderContainer";
+
 import { Footer } from "@/components/Footer/Footer";
+import { AppHeaderContainer } from "@/components/Header/containers/AppHeaderContainer";
 import { Flex } from "@/components/ui/Flex/Flex";
 
 // todo: move this logic out of the layout

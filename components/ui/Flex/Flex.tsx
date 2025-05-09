@@ -1,6 +1,7 @@
-import { cn } from "@/lib/cn";
 import { cva, VariantProps } from "class-variance-authority";
 import React from "react";
+
+import { cn } from "@/lib/cn";
 
 const flexVariants = cva("flex", {
   variants: {
@@ -15,7 +16,7 @@ const flexVariants = cva("flex", {
       center: "items-center",
     },
     fullWidth: {
-      false: null,
+      false: undefined,
       true: "w-full",
     },
   },

@@ -1,5 +1,6 @@
-import { cn } from "@/lib/cn";
 import { cva, VariantProps } from "class-variance-authority";
+
+import { cn } from "@/lib/cn";
 
 const typographyVariants = cva("", {
   variants: {

@@ -1,4 +1,5 @@
 import { Construction } from "lucide-react";
+
 import { Alert, AlertDescription, AlertTitle } from "../ui/alert";
 
 export default function LandingPage() {
