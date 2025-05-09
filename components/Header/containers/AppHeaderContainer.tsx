@@ -8,5 +8,7 @@ export const AppHeaderContainer = async () => {
     data: { user },
   } = await supabase.auth.getUser(); // todo: put this in a context
 
-  return <AppHeader user={user} />;
+  const normalizedUser = user ?? undefined;
+
+  return <AppHeader user={normalizedUser} />;
 };

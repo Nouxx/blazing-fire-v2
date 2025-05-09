@@ -15,8 +15,7 @@
 │   └── ui
 │       ├── ... (core elements: design system)
 ├── lib
-│   └── ... 
+│   └── ...
 ├── package.json
 ├── playwright (playwright component tests directory)
 ```
-

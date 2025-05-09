@@ -6,13 +6,9 @@
     },
   ],
   "extensions": {
-    "recommendations": [
-      "streetsidesoftware.code-spell-checker"
-    ]
+    "recommendations": ["streetsidesoftware.code-spell-checker"],
   },
   "settings": {
-    "cSpell.words": [
-      "supabase"
-    ]
+    "cSpell.words": ["supabase"],
   },
 }

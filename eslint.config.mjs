@@ -2,6 +2,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { FlatCompat } from "@eslint/eslintrc";
+import eslintPluginPrettierRecommended from "eslint-plugin-prettier/recommended";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
 import eslintPluginUnicorn from "eslint-plugin-unicorn";
 
@@ -13,8 +14,8 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
-  ...compat.extends("next/core-web-vitals", "next/typescript", "prettier"),
-  eslintPluginUnicorn.configs.recommended, // loads unicorn preset
+  ...compat.extends("next/core-web-vitals", "next/typescript"),
+  eslintPluginUnicorn.configs.recommended,
   {
     rules: {
       "unicorn/filename-case": [
@@ -22,8 +23,8 @@ const eslintConfig = [
         {
           cases: {
             camelCase: true, // camelCase
-            pascalCase: false, // PascalCase
-            kebabCase: false, // kebab-case
+            pascalCase: true, // PascalCase
+            kebabCase: true, // kebab-case
             snakeCase: false, // snake_case
           },
         },
@@ -39,14 +40,7 @@ const eslintConfig = [
       "simple-import-sort/exports": "error",
     },
   },
-  {
-    // disable sorting rules that conflict with simple-import-sort
-    // https://github.com/lydell/eslint-plugin-simple-import-sort?tab=readme-ov-file#usage
-    rules: {
-      "sort-imports": "off",
-      "import/order": "off",
-    },
-  },
+  eslintPluginPrettierRecommended,
 ];
 
 export default eslintConfig;

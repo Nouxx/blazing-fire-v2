@@ -1,4 +1,4 @@
-import { expect,test } from "@playwright/experimental-ct-react";
+import { expect, test } from "@playwright/experimental-ct-react";
 
 import { AppHeader } from "@/components/Header/views/AppHeader";
 import { getSnapshotPath } from "@/lib/getSnapshotPath";

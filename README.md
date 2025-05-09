@@ -75,7 +75,7 @@ import { MyComp } from "./MyComp";
 
 <MyComp>
   <MyComp.SubComponent />
-</MyComp>
+</MyComp>;
 ```
 
 https://github.com/vercel/next.js/issues/44030

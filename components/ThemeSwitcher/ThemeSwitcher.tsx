@@ -38,7 +38,7 @@ const ThemeSwitcher = () => {
               size={ICON_SIZE}
               className={"text-muted-foreground"}
             />
-          ) : (theme === "dark" ? (
+          ) : theme === "dark" ? (
             <Moon
               key="dark"
               size={ICON_SIZE}
@@ -50,7 +50,7 @@ const ThemeSwitcher = () => {
               size={ICON_SIZE}
               className={"text-muted-foreground"}
             />
-          ))}
+          )}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-content" align="start">
