@@ -2,7 +2,7 @@ import { defineConfig, devices } from "@playwright/test";
 
 // Read environment variables from "env.local" file
 import dotenv from "dotenv";
-import path from "path";
+import path from "node:path";
 dotenv.config({ path: path.resolve(__dirname, ".env.local") });
 
 const { NEXT_START_PORT } = process.env;

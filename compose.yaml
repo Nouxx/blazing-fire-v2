@@ -15,7 +15,5 @@ services:
     init: true
     extra_hosts:
       - "host.docker.internal:host-gateway"
-    ports:
-      - 9323:9323
-    command: pnpm test:e2e:docker
-    # todo: make report available
+    environment:
+      NEXT_PUBLIC_SUPABASE_URL: "http://host.docker.internal:54321"
