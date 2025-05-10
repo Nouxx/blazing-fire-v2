@@ -19,3 +19,11 @@ supabase db diff --use-migra -f migration_file_name
 ```
 
 - Reset the db to make sure everything's okay!
+
+## Reset the DB
+
+Erase the DB data, apply all migrations then insert seed data.
+
+```bash
+supabase db reset
+```
