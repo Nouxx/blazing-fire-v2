@@ -1,4 +1,5 @@
 import { type NextRequest } from "next/server";
+
 import { updateSession } from "@/utils/supabase/middleware";
 
 export async function middleware(request: NextRequest) {
@@ -14,6 +15,14 @@ export const config = {
      * - favicon.ico (favicon file)
      * - images - .svg, .png, .jpg, .jpeg, .gif, .webp
      */
+
+    /**
+     * The page's config must be an object initialized directly when being exported and not modified dynamically.
+     * The config object must only contain static constant literals without expressions.
+     * https://nextjs.org/docs/messages/invalid-page-config
+     */
+
+    // eslint-disable-next-line unicorn/prefer-string-raw
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

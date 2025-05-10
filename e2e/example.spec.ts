@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
 test("has title", async ({ page }) => {
   // todo: move this to base url and comment why 3001 (never uses dev server as we dont need hot reload)

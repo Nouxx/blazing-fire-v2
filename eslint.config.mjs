@@ -18,7 +18,11 @@ const compat = new FlatCompat({
 
 const eslintConfig = [
   includeIgnoreFile(gitignorePath),
-  globalIgnores(["postcss.config.js", "tailwind.config.ts"]),
+  globalIgnores([
+    "postcss.config.js",
+    "tailwind.config.ts",
+    "playwright*.config.ts",
+  ]),
   ...compat.extends("next/core-web-vitals", "next/typescript"),
   eslintPluginUnicorn.configs.recommended,
   {
