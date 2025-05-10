@@ -1,7 +1,7 @@
 import { InfoIcon } from "lucide-react";
 import { redirect } from "next/navigation";
 
-import Instruments, { Instrument } from "@/components/Instruments";
+import { type Menu, MenusTemporary } from "@/components/MenusTemporary";
 import { createClient } from "@/utils/supabase/server";
 
 export default async function ProtectedPage() {
@@ -15,7 +15,7 @@ export default async function ProtectedPage() {
     return redirect("/sign-in");
   }
 
-  const { data: instruments } = await supabase.from("instruments").select();
+  const { data: menus } = await supabase.from("menus").select();
 
   return (
     <div className="flex-1 w-full flex flex-col gap-12">
@@ -29,12 +29,12 @@ export default async function ProtectedPage() {
       <div className="flex flex-col gap-2 items-start">
         <h2 className="font-bold text-2xl mb-4">Your user details</h2>
         <pre className="text-xs font-mono p-3 rounded border max-h-32 overflow-auto">
-          {JSON.stringify(user)}
+          user.aud = {user.aud}
         </pre>
       </div>
       <div className="flex flex-col gap-2 items-start">
-        <h2 className="font-bold text-2xl mb-4">Your Supabase dummy data</h2>
-        <Instruments instruments={instruments as Instrument[]} />
+        <h2 className="font-bold text-2xl mb-4">First menu</h2>
+        <MenusTemporary menus={menus as Menu[]} />
       </div>
     </div>
   );
