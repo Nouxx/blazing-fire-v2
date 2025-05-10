@@ -6,7 +6,11 @@
     },
   ],
   "extensions": {
-    "recommendations": ["streetsidesoftware.code-spell-checker"],
+    "recommendations": [
+      "streetsidesoftware.code-spell-checker",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+    ],
   },
   "settings": {
     "cSpell.words": ["supabase"],
