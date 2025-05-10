@@ -5,7 +5,7 @@
     "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start --port 3001",
-    "lint": "next lint",
+    "lint": "eslint .",
     "format:fix": "prettier --write .",
     "ff": "pnpm format:fix",
     "format:check": "prettier --check .",
@@ -34,6 +34,7 @@
     "react-dom": "19.0.0"
   },
   "devDependencies": {
+    "@eslint/compat": "^1.2.9",
     "@eslint/eslintrc": "^3.3.1",
     "@playwright/experimental-ct-react": "^1.52.0",
     "@playwright/test": "1.52.0",
