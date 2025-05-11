@@ -14,5 +14,6 @@
   },
   "settings": {
     "cSpell.words": ["supabase"],
+    "typescript.preferences.importModuleSpecifier": "non-relative",
   },
 }

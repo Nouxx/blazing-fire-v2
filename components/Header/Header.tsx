@@ -5,10 +5,9 @@ import Link from "next/link";
 import { createContext, PropsWithChildren, useContext } from "react";
 
 import { signOutAction } from "@/app/actions";
+import { AppLogo } from "@/components/AppLogo/AppLogo";
 import { Button } from "@/components/ui/button";
 import { Flex } from "@/components/ui/Flex/Flex";
-
-import { AppLogo } from "../AppLogo/AppLogo"; // todo: use alias import
 
 export type HeaderProperties = {
   user?: User;
