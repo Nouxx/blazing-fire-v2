@@ -5,8 +5,7 @@ import dotenv from "dotenv";
 import path from "node:path";
 dotenv.config({ path: path.resolve(__dirname, ".env.local") });
 
-const { NEXT_START_PORT } = process.env;
-const NEXT_TEST_URL = `http://localhost:${NEXT_START_PORT}`;
+const NEXT_TEST_URL = `http://localhost:3001`; // port must match "dev" script in package.json
 
 export default defineConfig({
   testDir: "./e2e",
