@@ -2,11 +2,11 @@
 
 An all-in-one application to manage your diet, reducing friction when finding appropriate daily meals, so you can focus on your life while keeping your inner fire blazing!
 
-## Cheat sheet
+## Quick start
 
 ### Pre-requisite
 
-- `Node` (v22) and `pnpm`
+- `Node` (v22) and `pnpm` (v10)
 - `supabase` CLI (as the npm package `supabase` installation does not provide any bin, [source](https://github.com/supabase/supabase/issues/11851))
 
 ### Setup env
@@ -29,6 +29,6 @@ Start the supabase local instance
 supabase start # or stop
 ```
 
-### Tell me more
+## Go further
 
 Check the [docs](docs) folder.
