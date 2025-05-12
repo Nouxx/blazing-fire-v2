@@ -8,9 +8,8 @@ export const getSnapshotPath = (userFriendlyString: string) => {
     userFriendlyString
       .toLowerCase()
       .trim()
-      .replaceAll(/[^\d\sa-z]/g, "") // Remove non-alphanumeric characters except space
-      // should fail
-      .replaceAll(/\s+/g, "-") + // Replace spaces with hyphens
-    ".png" // Append file extension
+      .replaceAll(/[^\d\sa-z]/g, "") // removes non-alphanumeric characters except space
+      .replaceAll(/\s+/g, "-") + // replaces spaces with hyphens
+    ".png"
   );
 };

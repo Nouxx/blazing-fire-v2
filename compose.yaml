@@ -4,10 +4,10 @@ services:
   test:
     container_name: playwright-test-runner
     build:
-      dockerfile: docker/test.Dockerfile
+      dockerfile: docker/test/Dockerfile
       context: .
     volumes:
-      - .:/app:rw # mount all project files in /app
+      - .:/app:rw
       # anonymous volumes to avoid conflict with the host
       - /app/node_modules
       - /app/playwright/.cache
