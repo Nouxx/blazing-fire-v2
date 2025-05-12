@@ -1,5 +1,2 @@
 # dependencies
-**/pnpm-lock.yaml
-
-# dockerfile
-# **/*.Dockerfile # to test with Docker
+pnpm-lock.yaml
