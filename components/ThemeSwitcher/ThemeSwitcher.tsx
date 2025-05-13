@@ -22,7 +22,6 @@ const ThemeSwitcher = () => {
   }, []);
 
   if (!mounted) {
-    // warning: was null before
     return;
   }
 
