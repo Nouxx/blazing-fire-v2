@@ -23,11 +23,11 @@ export const Header = ({
 }: HeaderProperties & PropsWithChildren) => {
   return (
     <HeaderContext.Provider value={{ user }}>
-      <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-        <Flex fullWidth className="max-w-5xl p-3 px-5">
+      <Flex as="nav" fullWidth className="border-b border-b-foreground/10 h-16">
+        <Flex fullWidth className="max-w-5xl p-3 px-5" justify="between">
           {children}
         </Flex>
-      </nav>
+      </Flex>
     </HeaderContext.Provider>
   );
 };

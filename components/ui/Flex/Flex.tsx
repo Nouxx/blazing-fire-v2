@@ -1,5 +1,5 @@
 import { cva, VariantProps } from "class-variance-authority";
-import React from "react";
+import React, { JSX } from "react";
 
 import { cn } from "@/lib/cn";
 
@@ -11,6 +11,7 @@ const flexVariants = cva("flex", {
     },
     justify: {
       between: "justify-between",
+      center: "justify-center",
     },
     align: {
       center: "items-center",
@@ -22,7 +23,7 @@ const flexVariants = cva("flex", {
   },
   defaultVariants: {
     direction: "row",
-    justify: "between",
+    justify: "center",
     align: "center",
     fullWidth: false,
   },
@@ -30,7 +31,9 @@ const flexVariants = cva("flex", {
 
 interface FlexProperties
   extends React.HTMLAttributes<HTMLDivElement>,
-    VariantProps<typeof flexVariants> {}
+    VariantProps<typeof flexVariants> {
+  as?: keyof JSX.IntrinsicElements;
+}
 
 export const Flex = ({
   className,
@@ -39,14 +42,16 @@ export const Flex = ({
   align,
   fullWidth,
   children,
+  as = "div",
 }: FlexProperties) => {
+  const Component = as;
   return (
-    <div
+    <Component
       className={cn(
         flexVariants({ direction, justify, align, fullWidth, className }),
       )}
     >
       {children}
-    </div>
+    </Component>
   );
 };

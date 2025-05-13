@@ -41,7 +41,12 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <main className="min-h-screen flex flex-col items-center">
-            <Flex fullWidth direction="column" className="flex-1 gap-20">
+            <Flex
+              fullWidth
+              direction="column"
+              className="flex-1 gap-20"
+              justify="between"
+            >
               <AppHeaderContainer />
 
               <Flex direction="column" className="gap-20 max-w-5xl p-5">
