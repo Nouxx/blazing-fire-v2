@@ -40,7 +40,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <main className="min-h-screen flex flex-col items-center">
+          <Flex as="main" direction="column" className="min-h-screen">
             <Flex
               fullWidth
               direction="column"
@@ -55,7 +55,7 @@ export default function RootLayout({
 
               <Footer />
             </Flex>
-          </main>
+          </Flex>
         </ThemeProvider>
       </body>
     </html>
