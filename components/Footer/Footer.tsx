@@ -1,4 +1,5 @@
 import { Flex } from "@/components/ui/Flex/Flex";
+import { Typography } from "@/components/ui/Typography/Typography";
 
 export const Footer = () => {
   return (
@@ -7,17 +8,12 @@ export const Footer = () => {
       fullWidth
       className="border-t mx-auto text-center text-xs gap-8 py-16"
     >
-      <p>
+      <Typography size="xs">
         Powered by{" "}
-        <a
-          href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-          target="_blank"
-          className="font-bold hover:underline"
-          rel="noreferrer"
-        >
+        <Typography size="xs" as="span" font="semibold">
           Supabase
-        </a>
-      </p>
+        </Typography>
+      </Typography>
     </Flex>
   );
 };
