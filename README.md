@@ -29,6 +29,16 @@ Start the supabase local instance
 supabase start # or stop
 ```
 
+### Test
+
+```bash
+pnpm test:ui     # runs UI tests
+pnpm test:e2e    # runs E2E tests
+pnpm test:report # show report
+```
+
+Details in the [testing documentation](docs/testing.md).
+
 ## Go further
 
 Check the [docs](docs) folder.
