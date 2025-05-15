@@ -1,0 +1,41 @@
+direction: right
+
+local: local environment {
+  localhost: localhost {
+    next: Next.js {
+      icon: assets/img/vercel-logo.svg
+      shape: image
+      height: 75
+    }
+
+    supabase: Supabase {
+      icon: assets/img/supabase-logo.svg
+      shape: image
+      height: 75
+    }
+  }
+
+  localhost.next -> localhost.supabase
+  localhost.supabase -> localhost.next
+}
+
+prod: production environment {
+  vercel: vercel.com {
+    next: Next.js {
+      icon: assets/img/vercel-logo.svg
+      shape: image
+      height: 75
+    }
+  }
+
+  supabase: supabase.com {
+    supabase-app: Supabase {
+      icon: assets/img/supabase-logo.svg
+      shape: image
+      height: 75
+    }
+  }
+
+  vercel.next -> supabase.supabase-app
+  supabase.supabase-app -> vercel.next
+}

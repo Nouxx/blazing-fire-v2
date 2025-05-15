@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "../",
+      "name": "blazing-fire",
+    },
+  ],
+  "extensions": {
+    "recommendations": [
+      "streetsidesoftware.code-spell-checker",
+      "esbenp.prettier-vscode",
+      "dbaeumer.vscode-eslint",
+    ],
+  },
+  "settings": {
+    "cSpell.words": ["supabase"],
+    "typescript.preferences.importModuleSpecifier": "non-relative",
+  },
+}
