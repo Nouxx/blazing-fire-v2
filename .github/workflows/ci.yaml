@@ -1,0 +1,47 @@
+name: CI
+
+concurrency:
+  group: ci-pr-${{ github.event.number }}
+  cancel-in-progress: true
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - converted_to_draft
+      - ready_for_review
+
+jobs:
+  code-quality:
+    name: Code quality
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4 # uses "packageManager" version in package.json
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install Node dependencies (on the host)
+        run: pnpm install --frozen-lockfile
+
+      - name: Setup .env
+        run: |
+          cp .env.example .env.local
+
+      - name: Run code formatting check
+        run: pnpm run format:check
+
+      - name: Lint
+        run: pnpm run lint
