@@ -1,3 +1,3 @@
-### E2E Tests report
+### UI Tests report
 
 :performing_arts: [Report link]($REPORT_URL)

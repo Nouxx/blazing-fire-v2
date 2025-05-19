@@ -16,9 +16,10 @@ on:
       - ready_for_review
 
 env:
-  PR_NUMBER: ${{ github.event.number }} # todo: replace with full url
-  GH_PAGES_BASE_URL: https://nouxx.github.io/blazing-fire-v2
   E2E_TESTS_SUMMARY_TEMPLATE: .github/templates/tests/e2e/step-summary.md
+  E2E_TESTS_REPORT_URL: https://nouxx.github.io/blazing-fire-v2/pr-${{ github.event.number }}/e2e
+  UI_TESTS_SUMMARY_TEMPLATE: .github/templates/tests/ui/step-summary.md
+  UI_TESTS_REPORT_URL: https://nouxx.github.io/blazing-fire-v2/pr-${{ github.event.number }}/ui
 
 jobs:
   code-quality:
@@ -45,8 +46,8 @@ jobs:
       - name: Lint
         run: pnpm run lint
 
-  tests:
-    name: Tests
+  ui-tests:
+    name: UI Tests
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -55,53 +56,70 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.sha }}
 
-      # - name: Install supabase CLI
-      #   uses: supabase/setup-cli@v1
-      #   with:
-      #     version: latest
+      - name: Run UI tests
+        id: ui-tests
+        continue-on-error: true
+        run: docker compose run --rm -P test pnpm test:ui:docker
 
-      # - name: Start local supabase instance
-      #   run: supabase start
-
-      # - name: Setup .env
-      #   run: ./tools/scripts/setup-env.sh
-
-      # - name: Build docker images
-      #   run: docker compose build test
-
-      # - name: Run UI tests
-      #   if: false
-      #   run: docker compose run --rm -P test pnpm test:ui:docker
-
-      # - name: Run E2E tests
-      #   id: e2e-tests
-      #   run: docker compose run --rm -P test pnpm test:e2e:docker
-
-      - name: Get git information for the current branch
-        id: git-info
-        uses: ./.github/actions/git-info
-
-      - name: Set E2E_TESTS_REPORT_URI # ex: pr-123/e2e
-        run: echo "E2E_TESTS_REPORT_URI=pr-${{ env.PR_NUMBER }}/e2e" >> $GITHUB_ENV
-
-      - name: Set E2E_TESTS_REPORT_URL # ex: https://nouxx.github.io/blazing-fire-v2/pr-123/e2e
-        run: echo "E2E_TESTS_REPORT_URL=${{ env.GH_PAGES_BASE_URL }}/${{ env.E2E_TESTS_REPORT_URI }}" >> $GITHUB_ENV
-
-      - name: Deploy to GitHub Pages
+      - name: Deploy UI tests reports
+        if: steps.ui-tests.outcome == 'failure'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./playwright-report
-          destination_dir: ${{ env.E2E_TESTS_REPORT_URI }}
+          destination_dir: ${{ env.UI_TESTS_REPORT_URL }}
 
-      - name: Populate "step summary" template
-        run: |
-          sed -i 's|\$REPORT_URL|${{ env.E2E_TESTS_REPORT_URL }}|g' ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }}
-          sed -i 's|\$MOST_RECENT_COMMIT_SHA|${{ steps.git-info.outputs.most-recent-commit-sha }}|g' ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }}
-          sed -i 's|\$MOST_RECENT_COMMIT_NAME|${{ steps.git-info.outputs.most-recent-commit-name }}|g' ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }}
+      - name: Populate "step summary" template variables for UI tests
+        if: steps.ui-tests.outcome == 'failure'
+        run: sed -i 's|\$REPORT_URL|${{ env.UI_TESTS_REPORT_URL }}|g' ${{ env.UI_TESTS_SUMMARY_TEMPLATE }}
+
+      - name: Add UI tests report to the step summary
+        if: steps.ui-tests.outcome == 'failure'
+        run: cat ${{ env.UI_TESTS_SUMMARY_TEMPLATE }} >> $GITHUB_STEP_SUMMARY
+
+  e2e-tests:
+    name: E2E Tests
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Start local supabase instance
+        run: supabase start
+
+      - name: Setup .env
+        run: ./tools/scripts/setup-env.sh
+
+      - name: Build docker images
+        run: docker compose build test
+
+      - name: Run E2E tests
+        id: e2e-tests
+        continue-on-error: true
+        run: docker compose run --rm -P test pnpm test:e2e:docker
+
+      - name: Deploy to GitHub Pages
+        if: steps.e2e-tests.outcome == 'failure'
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./playwright-report
+          destination_dir: ${{ env.E2E_TESTS_REPORT_URL }}
+
+      - name: Populate "step summary" template for E2E tests
+        if: steps.e2e-tests.outcome == 'failure'
+        run: sed -i 's|\$REPORT_URL|${{ env.E2E_TESTS_REPORT_URL }}|g' ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }}
 
       - name: Add E2E tests report to the summary
-        run: cat .github/templates/tests/e2e/step-summary.md > $GITHUB_STEP_SUMMARY
+        if: steps.e2e-tests.outcome == 'failure'
+        run: cat ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }} >> $GITHUB_STEP_SUMMARY
