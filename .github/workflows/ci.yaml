@@ -108,7 +108,7 @@ jobs:
         id: e2e-tests
         run: docker compose run --rm -P test pnpm test:e2e:docker
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy E2E tests reports
         if: always() && steps.e2e-tests.outcome == 'failure'
         uses: peaceiris/actions-gh-pages@v4
         with:
