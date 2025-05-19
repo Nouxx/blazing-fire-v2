@@ -53,15 +53,19 @@ jobs:
         uses: supabase/setup-cli@v1
         with:
           version: latest
-      
+
       - name: Start local supabase instance
         run: supabase start
 
-      # - name: Build docker images
-      #   run: docker compose build test
+      - name: Setup .env
+        run: ./tools/scripts/setup-env.sh
 
-      # - name: Run UI tests
-      #   run: docker compose run --rm -P test pnpm test:ui:docker
+      - name: Build docker images
+        run: docker compose build test
 
-      # - name: Run E2E tests
-      #   run: docker compose run --rm -P test pnpm test:e2e:docker
+      - name: Run UI tests
+        if: false
+        run: docker compose run --rm -P test pnpm test:ui:docker
+
+      - name: Run E2E tests
+        run: docker compose run --rm -P test pnpm test:e2e:docker
