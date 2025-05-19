@@ -16,8 +16,9 @@ on:
       - ready_for_review
 
 env:
-  PR_NUMBER: ${{ github.event.number }}
+  PR_NUMBER: ${{ github.event.number }} # todo: replace with full url
   GH_PAGES_BASE_URL: https://nouxx.github.io/blazing-fire-v2
+  E2E_TESTS_SUMMARY_TEMPLATE: .github/templates/tests/e2e/step-summary.md
 
 jobs:
   code-quality:
@@ -79,6 +80,10 @@ jobs:
       #   id: e2e-tests
       #   run: docker compose run --rm -P test pnpm test:e2e:docker
 
+      - name: Get git information for the current branch
+        id: git-info
+        uses: ./.github/actions/git-info
+
       - name: Set E2E_TESTS_REPORT_URI # ex: pr-123/e2e
         run: echo "E2E_TESTS_REPORT_URI=pr-${{ env.PR_NUMBER }}/e2e" >> $GITHUB_ENV
 
@@ -92,5 +97,11 @@ jobs:
           publish_dir: ./playwright-report
           destination_dir: ${{ env.E2E_TESTS_REPORT_URI }}
 
-      - name: Write URL in summary
-        run: echo "### E2E Tests ${{ env.E2E_TESTS_REPORT_URL }}" >> $GITHUB_STEP_SUMMARY
+      - name: Populate "step summary" template
+        run: |
+          sed -i 's|\$REPORT_URL|${{ env.E2E_TESTS_REPORT_URL }}|g' ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }}
+          sed -i 's|\$MOST_RECENT_COMMIT_SHA|${{ steps.git-info.outputs.most-recent-commit-sha }}|g' ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }}
+          sed -i 's|\$MOST_RECENT_COMMIT_NAME|${{ steps.git-info.outputs.most-recent-commit-name }}|g' ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }}
+
+      - name: Add E2E tests report to the summary
+        run: cat .github/templates/tests/e2e/step-summary.md > $GITHUB_STEP_SUMMARY
