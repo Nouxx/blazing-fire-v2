@@ -17,8 +17,10 @@ on:
 
 env:
   E2E_TESTS_SUMMARY_TEMPLATE: .github/templates/tests/e2e/step-summary.md
+  E2E_TESTS_REPORT_PATH: pr-${{ github.event.number }}/e2e
   E2E_TESTS_REPORT_URL: https://nouxx.github.io/blazing-fire-v2/pr-${{ github.event.number }}/e2e
   UI_TESTS_SUMMARY_TEMPLATE: .github/templates/tests/ui/step-summary.md
+  UI_TESTS_REPORT_PATH: pr-${{ github.event.number }}/ui
   UI_TESTS_REPORT_URL: https://nouxx.github.io/blazing-fire-v2/pr-${{ github.event.number }}/ui
 
 jobs:
@@ -59,23 +61,22 @@ jobs:
 
       - name: Run UI tests
         id: ui-tests
-        continue-on-error: true
         run: docker compose run --rm -P test pnpm test:ui:docker
 
       - name: Deploy UI tests reports
-        if: steps.ui-tests.outcome == 'failure'
+        if: always() && steps.ui-tests.outcome == 'failure'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./playwright-report
-          destination_dir: ${{ env.UI_TESTS_REPORT_URL }}
+          destination_dir: ${{ env.UI_TESTS_REPORT_PATH }}
 
       - name: Populate "step summary" template variables for UI tests
-        if: steps.ui-tests.outcome == 'failure'
+        if: always() && steps.ui-tests.outcome == 'failure'
         run: sed -i 's|\$REPORT_URL|${{ env.UI_TESTS_REPORT_URL }}|g' ${{ env.UI_TESTS_SUMMARY_TEMPLATE }}
 
       - name: Add UI tests report to the step summary
-        if: steps.ui-tests.outcome == 'failure'
+        if: always() && steps.ui-tests.outcome == 'failure'
         run: cat ${{ env.UI_TESTS_SUMMARY_TEMPLATE }} >> $GITHUB_STEP_SUMMARY
 
   e2e-tests:
