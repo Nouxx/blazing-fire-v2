@@ -17,6 +17,7 @@ on:
 
 env:
   PR_NUMBER: ${{ github.event.number }}
+  GH_PAGES_BASE_URL: https://nouxx.github.io/blazing-fire-v2
 
 jobs:
   code-quality:
@@ -78,12 +79,18 @@ jobs:
       #   id: e2e-tests
       #   run: docker compose run --rm -P test pnpm test:e2e:docker
 
-      - name: Debug
-        run: ls
+      - name: Set E2E_TESTS_REPORT_URI # ex: pr-123/e2e
+        run: echo "E2E_TESTS_REPORT_URI=pr-${{ env.PR_NUMBER }}/e2e" >> $GITHUB_ENV
+
+      - name: Set E2E_TESTS_REPORT_URL # ex: https://nouxx.github.io/blazing-fire-v2/pr-123/e2e
+        run: echo "E2E_TESTS_REPORT_URL=${{ env.GH_PAGES_BASE_URL }}/${{ env.E2E_TESTS_REPORT_URI }}" >> $GITHUB_ENV
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./playwright-report
-          destination_dir: e2e/pr-${{ env.PR_NUMBER }}
+          destination_dir: ${{ env.E2E_TESTS_REPORT_URI }}
+
+      - name: Write URL in summary
+        run: echo "### E2E Tests ${{ env.E2E_TESTS_REPORT_URL }}" >> $GITHUB_STEP_SUMMARY
