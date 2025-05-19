@@ -39,3 +39,21 @@ jobs:
 
       - name: Lint
         run: pnpm run lint
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Build docker images
+        run: docker compose build test
+
+      - name: Run UI tests
+        run: docker compose run --rm -P test pnpm test:ui:docker
+
+      - name: Run E2E tests
+        run: docker compose run --rm -P test pnpm test:e2e:docker
