@@ -12,7 +12,7 @@ test("Authentication", async ({ page }) => {
   await page.goto("/");
   await expect(page).toHaveTitle(/Blazing Fire/);
   await homePage.goToSignIn();
-  await signInPage.fillSignInForm("clement.vannouque@gmail.com", "qwerty1");
+  await signInPage.fillSignInForm("clement.vannouque@gmail.com", "qwerty123");
   await signInPage.submitSignInForm();
   await protectedPage.assertPage();
 });
