@@ -106,21 +106,20 @@ jobs:
 
       - name: Run E2E tests
         id: e2e-tests
-        continue-on-error: true
         run: docker compose run --rm -P test pnpm test:e2e:docker
 
       - name: Deploy to GitHub Pages
-        if: steps.e2e-tests.outcome == 'failure'
+        if: always() && steps.e2e-tests.outcome == 'failure'
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./playwright-report
-          destination_dir: ${{ env.E2E_TESTS_REPORT_URL }}
+          destination_dir: ${{ env.E2E_TESTS_REPORT_PATH }}
 
       - name: Populate "step summary" template for E2E tests
-        if: steps.e2e-tests.outcome == 'failure'
+        if: always() && steps.e2e-tests.outcome == 'failure'
         run: sed -i 's|\$REPORT_URL|${{ env.E2E_TESTS_REPORT_URL }}|g' ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }}
 
       - name: Add E2E tests report to the summary
-        if: steps.e2e-tests.outcome == 'failure'
+        if: always() && steps.e2e-tests.outcome == 'failure'
         run: cat ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }} >> $GITHUB_STEP_SUMMARY
