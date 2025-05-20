@@ -1,24 +1,49 @@
 #!/bin/bash
-# ascii art: https://patorjk.com/software/taag font: Big
+# ASCII art courtesy of patorjk.com/software/taag (font: Big)
 
-#    _____ ____  _   _ ______ _____ _____
-#   / ____/ __ \| \ | |  ____|_   _/ ____|
-#  | |   | |  | |  \| | |__    | || |  __
-#  | |   | |  | | . ` |  __|   | || | |_ |
-#  | |___| |__| | |\  | |     _| || |__| |
-#   \_____\____/|_| \_|_|    |_____\_____|
+# Setup Env File
+# ------------------------------
+# generate ".env.local" file with all required values (sensitive or not)
+# - create a backup file (".env.backup")
+# - leverage supabase CLI to get values from local instance
+#
+# Usage: ./tools/scripts/setup-env.sh
+
+#                    __ _
+#                   / _(_)
+#    ___ ___  _ __ | |_ _  __ _
+#   / __/ _ \| '_ \|  _| |/ _` |
+#  | (_| (_) | | | | | | | (_| |
+#   \___\___/|_| |_|_| |_|\__, |
+#                          __/ |
+#                         |___/
 
 SCRIPT_LOCATION="$(dirname "$0")"
 OUTPUT_FILE_NAME=".env.local"
 OUTPUT_FILE_PATH="$SCRIPT_LOCATION/../../$OUTPUT_FILE_NAME"
 BACKUP_FILE_PATH="$SCRIPT_LOCATION/../../.env.backup"
 
-#    _____ ______ _______ _    _ _____
-#   / ____|  ____|__   __| |  | |  __ \
-#  | (___ | |__     | |  | |  | | |__) |
-#   \___ \|  __|    | |  | |  | |  ___/
-#   ____) | |____   | |  | |__| | |
-#  |_____/|______|  |_|   \____/|_|
+#    __                  _   _
+#   / _|                | | (_)
+#  | |_ _   _ _ __   ___| |_ _  ___  _ __  ___
+#  |  _| | | | '_ \ / __| __| |/ _ \| '_ \/ __|
+#  | | | |_| | | | | (__| |_| | (_) | | | \__ \
+#  |_|  \__,_|_| |_|\___|\__|_|\___/|_| |_|___/
+
+function display_header() {
+  cat $SCRIPT_LOCATION/headers/setup-env.txt >&2
+}
+
+#            _
+#           | |
+#   ___  ___| |_ _   _ _ __
+#  / __|/ _ \ __| | | | '_ \
+#  \__ \  __/ |_| |_| | |_) |
+#  |___/\___|\__|\__,_| .__/
+#                     | |
+#                     |_|
+
+display_header
 
 echo -n "Checking supabase CLI... "
 if ! supabase --version &> /dev/null; then
@@ -43,12 +68,14 @@ else
   echo "skipped."
 fi
 
-#    _____ _    _ _____        ____           _____ ______
-#   / ____| |  | |  __ \ /\   |  _ \   /\    / ____|  ____|
-#  | (___ | |  | | |__) /  \  | |_) | /  \  | (___ | |__
-#   \___ \| |  | |  ___/ /\ \ |  _ < / /\ \  \___ \|  __|
-#   ____) | |__| | |  / ____ \| |_) / ____ \ ____) | |____
-#  |_____/ \____/|_| /_/    \_\____/_/    \_\_____/|______|
+#                         _
+#                        | |
+#   ___ _   _ _ __   __ _| |__   __ _ ___  ___
+#  / __| | | | '_ \ / _` | '_ \ / _` / __|/ _ \
+#  \__ \ |_| | |_) | (_| | |_) | (_| \__ \  __/
+#  |___/\__,_| .__/ \__,_|_.__/ \__,_|___/\___|
+#            | |
+#            |_|
 
 echo "Setting up environment variables for Supabase..."
 
