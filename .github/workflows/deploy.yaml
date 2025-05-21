@@ -9,9 +9,10 @@ env:
   SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
 
 on:
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
+  pull_request:
 
 jobs:
   compute-new-version:
@@ -48,7 +49,8 @@ jobs:
   deploy-prod:
     name: Deploy Production Environment
     needs: compute-new-version
-    if: ${{ needs.compute-new-version.outputs.version != '' }}
+    # if: ${{ needs.compute-new-version.outputs.version != '' }}
+    if: false
     runs-on: ubuntu-latest
     env:
       NEW_VERSION: ${{ needs.compute-new-version.outputs.version }}
