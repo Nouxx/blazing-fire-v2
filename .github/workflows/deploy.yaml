@@ -25,6 +25,7 @@ jobs:
       - name: Checkout "tools" directory
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
           fetch-tags: true
           sparse-checkout: |
@@ -43,7 +44,7 @@ jobs:
       - name: Run the new version calculation script
         id: compute-new-version
         run: |
-          new_version=$(./tools/new-version.sh "${{ steps.git-variables.outputs.most-recent-tag }}" '${{ steps.git-variables.outputs.most-recent-commit-name }}')
+          new_version=$(./tools/scripts/new-version.sh "${{ steps.git-variables.outputs.most-recent-tag }}" '${{ steps.git-variables.outputs.most-recent-commit-name }}')
           echo "value=$new_version" >> $GITHUB_OUTPUT
 
   deploy-prod:
