@@ -94,7 +94,7 @@ jobs:
       - name: Build the app
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
-          PUBLIC_VERSION: ${{ env.NEW_VERSION }} # todo: use in front
+          NEXT_PUBLIC_APP_VERSION: ${{ env.NEW_VERSION }}
 
       - name: Push migration (if any)
         run: supabase db push
