@@ -37,6 +37,8 @@ Allowed types:
 - `style`
 - `test`
 
+`ci`, `docs` and `test` does not trigger a new version/release.
+
 ### No uppercase in the description
 
 Just a personal preference.

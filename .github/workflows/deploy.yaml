@@ -90,6 +90,9 @@ jobs:
       - name: Link Supabase project
         run: supabase link --project-ref ${{ env.SUPABASE_PROJECT_ID }}
 
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4 # uses "packageManager" version in package.json
+
       - name: Build the app
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
