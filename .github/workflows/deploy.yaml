@@ -58,18 +58,12 @@ jobs:
       COMMIT_TO_TAG: ${{ needs.compute-new-version.outputs.commit-sha }}
     permissions:
       actions: write
-      attestations: none
-      checks: none
       contents: write
       deployments: write
-      id-token: none
       issues: read
-      discussions: none
       packages: write
-      pages: none
       pull-requests: read
       repository-projects: read
-      security-events: none
       statuses: read
     steps:
       - name: Checkout repository
@@ -81,10 +75,10 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
-          node-version: 18.20.3
+          node-version: 22
 
       - name: Install vercel CLI
-        run: npm install --global vercel@34.2.6
+        run: npm install --global vercel@latest
 
       - name: Pull vercel environments variables
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
@@ -92,19 +86,17 @@ jobs:
       - name: Install supabase CLI
         uses: supabase/setup-cli@v1
         with:
-          version: 2.20.12 # need to update the rest of the project
+          version: latest
 
       - name: Link Supabase project
-        working-directory: ${{ env.SUPABASE_DIRECTORY }}
         run: supabase link --project-ref ${{ env.SUPABASE_PROJECT_ID }}
 
-      - name: Build apps/web
+      - name: Build the app
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
         env:
-          PUBLIC_VERSION: ${{ env.NEW_VERSION }}
+          PUBLIC_VERSION: ${{ env.NEW_VERSION }} # todo: use in front
 
       - name: Push migration (if any)
-        working-directory: ${{ env.SUPABASE_DIRECTORY }}
         run: supabase db push
 
       - name: Deploy apps/web to vercel
