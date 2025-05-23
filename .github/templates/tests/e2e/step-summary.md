@@ -1,3 +1,0 @@
-### E2E Tests report
-
-:performing_arts: [Report link]($REPORT_URL)

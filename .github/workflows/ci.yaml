@@ -69,7 +69,7 @@ jobs:
           publish_dir: ./playwright-report
           destination_dir: ${{ env.UI_TESTS_REPORT_PATH }}
 
-      - name: Generate Test Summary
+      - name: Generate UI Test Summary
         uses: daun/playwright-report-summary@v3
         id: test-summary
         if: always()
@@ -78,7 +78,7 @@ jobs:
           create-comment: false
           report-url: ${{ env.UI_TESTS_REPORT_URL }}
 
-      - name: Add tests summary to job run summary
+      - name: Add UI tests summary to job run summary
         if: always()
         run: echo "${{ steps.test-summary.outputs.summary }}" >> $GITHUB_STEP_SUMMARY
 
@@ -112,17 +112,22 @@ jobs:
         run: docker compose run --rm -P test pnpm test:e2e:docker
 
       - name: Deploy E2E tests reports
-        if: always() && steps.e2e-tests.outcome == 'failure'
+        if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./playwright-report
           destination_dir: ${{ env.E2E_TESTS_REPORT_PATH }}
 
-      - name: Populate "step summary" template for E2E tests
-        if: always() && steps.e2e-tests.outcome == 'failure'
-        run: sed -i 's|\$REPORT_URL|${{ env.E2E_TESTS_REPORT_URL }}|g' ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }}
+      - name: Generate E2E Test Summary
+        uses: daun/playwright-report-summary@v3
+        id: test-summary
+        if: always()
+        with:
+          report-file: playwright-report/results.json
+          create-comment: false
+          report-url: ${{ env.E2E_TESTS_REPORT_URL }}
 
-      - name: Add E2E tests report to the summary
-        if: always() && steps.e2e-tests.outcome == 'failure'
-        run: cat ${{ env.E2E_TESTS_SUMMARY_TEMPLATE }} >> $GITHUB_STEP_SUMMARY
+      - name: Add E2E tests summary to job run summary
+        if: always()
+        run: echo "${{ steps.test-summary.outputs.summary }}" >> $GITHUB_STEP_SUMMARY
