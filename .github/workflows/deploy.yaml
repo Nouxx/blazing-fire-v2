@@ -9,10 +9,9 @@ env:
   SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
 
 on:
-  # push:
-  #   branches:
-  #     - main
-  pull_request:
+  push:
+    branches:
+      - main
 
 jobs:
   compute-new-version:
@@ -25,7 +24,6 @@ jobs:
       - name: Checkout "tools" directory
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.head.sha }}
           fetch-depth: 0
           fetch-tags: true
           sparse-checkout: |
@@ -98,21 +96,21 @@ jobs:
         env:
           NEXT_PUBLIC_APP_VERSION: ${{ env.NEW_VERSION }}
 
-      # - name: Push migration (if any)
-      #   run: supabase db push
+      - name: Push migration (if any)
+        run: supabase db push
 
-      # - name: Deploy apps/web to vercel
-      #   run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Deploy apps/web to vercel
+        run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
 
-      # - name: Tag the commit
-      #   run: |
-      #     git tag ${{ env.NEW_VERSION }} ${{ env.COMMIT_TO_TAG }}
-      #     git push origin ${{ env.NEW_VERSION }}
+      - name: Tag the commit
+        run: |
+          git tag ${{ env.NEW_VERSION }} ${{ env.COMMIT_TO_TAG }}
+          git push origin ${{ env.NEW_VERSION }}
 
-      # - name: Create the GitHub release for version ${{ env.NEW_VERSION }}
-      #   env:
-      #     GH_TOKEN: ${{ github.token }}
-      #   run: |
-      #     gh release create "${{ env.NEW_VERSION }}" \
-      #       --generate-notes \
-      #       --latest
+      - name: Create the GitHub release for version ${{ env.NEW_VERSION }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ env.NEW_VERSION }}" \
+            --generate-notes \
+            --latest
