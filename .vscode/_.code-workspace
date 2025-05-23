@@ -13,10 +13,7 @@
     ],
   },
   "settings": {
-    "cSpell.words": [
-      "supabase",
-      "vercel"
-    ],
+    "cSpell.words": ["supabase", "vercel"],
     "typescript.preferences.importModuleSpecifier": "non-relative",
   },
 }
