@@ -38,12 +38,3 @@ Allowed types:
 - `test`
 
 `ci`, `docs` and `test` does not trigger a new version/release.
-
-### No uppercase in the description
-
-Just a personal preference.
-
-```
-chore(whatever): I don't like this
-chore(whatever): this is my more my taste
-```
