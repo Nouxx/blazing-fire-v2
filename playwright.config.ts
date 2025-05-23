@@ -13,7 +13,10 @@ export default defineConfig({
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0, // retry on CI only
   workers: process.env.CI ? 1 : undefined, // opt out of parallel tests on CI.
-  reporter: [["html", { open: "never" }]], // the report is only accessible from the host
+  reporter: [
+    ["html", { open: "never", outputFolder: "playwright-report" }],
+    ["json", { outputFile: "playwright-report/results.json" }],
+  ],
   use: {
     baseURL: NEXT_TEST_URL,
     trace: "retain-on-failure",

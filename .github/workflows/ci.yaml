@@ -62,20 +62,25 @@ jobs:
         run: docker compose run --rm -P test pnpm test:ui:docker
 
       - name: Deploy UI tests reports
-        if: always() && steps.ui-tests.outcome == 'failure'
+        if: always()
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./playwright-report
           destination_dir: ${{ env.UI_TESTS_REPORT_PATH }}
 
-      - name: Populate "step summary" template variables for UI tests
-        if: always() && steps.ui-tests.outcome == 'failure'
-        run: sed -i 's|\$REPORT_URL|${{ env.UI_TESTS_REPORT_URL }}|g' ${{ env.UI_TESTS_SUMMARY_TEMPLATE }}
+      - name: Generate Test Summary
+        uses: daun/playwright-report-summary@v3
+        id: test-summary
+        if: always()
+        with:
+          report-file: playwright-report/results.json
+          create-comment: false
+          report-url: ${{ env.UI_TESTS_REPORT_URL }}
 
-      - name: Add UI tests report to the step summary
-        if: always() && steps.ui-tests.outcome == 'failure'
-        run: cat ${{ env.UI_TESTS_SUMMARY_TEMPLATE }} >> $GITHUB_STEP_SUMMARY
+      - name: Add tests summary to job run summary
+        if: always()
+        run: echo "${{ steps.test-summary.outputs.summary }}" >> $GITHUB_STEP_SUMMARY
 
   e2e-tests:
     name: E2E Tests
