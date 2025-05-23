@@ -13,7 +13,12 @@
     ],
   },
   "settings": {
-    "cSpell.words": ["supabase", "vercel"],
+    "cSpell.words": [
+      "daun",
+      "peaceiris",
+      "supabase",
+      "vercel"
+    ],
     "typescript.preferences.importModuleSpecifier": "non-relative",
   },
 }
