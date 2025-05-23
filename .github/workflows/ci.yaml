@@ -10,10 +10,8 @@ on:
       - main
     types:
       - opened
-      - synchronize
       - reopened
-      - converted_to_draft
-      - ready_for_review
+      - synchronize
 
 env:
   E2E_TESTS_SUMMARY_TEMPLATE: .github/templates/tests/e2e/step-summary.md
