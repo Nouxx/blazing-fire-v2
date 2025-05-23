@@ -1,0 +1,116 @@
+name: Deployment
+
+env:
+  VERCEL_DEPLOY: true
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  SUPABASE_PROJECT_ID: ${{ secrets.SUPABASE_PROJECT_ID }}
+  SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+  SUPABASE_DB_PASSWORD: ${{ secrets.SUPABASE_DB_PASSWORD }}
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  compute-new-version:
+    name: Compute new version
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.compute-new-version.outputs.value }}
+      commit-sha: ${{ steps.git-variables.outputs.most-recent-commit-sha }}
+    steps:
+      - name: Checkout "tools" directory
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+          sparse-checkout: |
+            tools
+
+      - name: Set git related variables
+        id: git-variables
+        run: |
+          most_recent_tag=$(git describe --tags --abbrev=0)
+          most_recent_commit_sha=$(git rev-parse HEAD)
+          most_recent_commit_name=$(git --no-pager log --format=%B -n 1 $most_recent_commit_sha | head -n 1)
+          echo "most-recent-tag=$most_recent_tag" >> $GITHUB_OUTPUT
+          echo "most-recent-commit-sha=$most_recent_commit_sha" >> $GITHUB_OUTPUT
+          echo "most-recent-commit-name=$most_recent_commit_name" >> $GITHUB_OUTPUT
+
+      - name: Run the new version calculation script
+        id: compute-new-version
+        run: |
+          new_version=$(./tools/scripts/new-version.sh "${{ steps.git-variables.outputs.most-recent-tag }}" '${{ steps.git-variables.outputs.most-recent-commit-name }}')
+          echo "value=$new_version" >> $GITHUB_OUTPUT
+
+  deploy-prod:
+    name: Deploy Production Environment
+    needs: compute-new-version
+    if: ${{ needs.compute-new-version.outputs.version != '' }}
+    runs-on: ubuntu-latest
+    env:
+      NEW_VERSION: ${{ needs.compute-new-version.outputs.version }}
+      COMMIT_TO_TAG: ${{ needs.compute-new-version.outputs.commit-sha }}
+    permissions:
+      actions: write
+      contents: write
+      deployments: write
+      issues: read
+      packages: write
+      pull-requests: read
+      repository-projects: read
+      statuses: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: Install vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull vercel environments variables
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Install supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Link Supabase project
+        run: supabase link --project-ref ${{ env.SUPABASE_PROJECT_ID }}
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4 # uses "packageManager" version in package.json
+
+      - name: Build the app
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          NEXT_PUBLIC_APP_VERSION: ${{ env.NEW_VERSION }}
+
+      - name: Push migration (if any)
+        run: supabase db push
+
+      - name: Deploy apps/web to vercel
+        run: vercel deploy --prod --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Tag the commit
+        run: |
+          git tag ${{ env.NEW_VERSION }} ${{ env.COMMIT_TO_TAG }}
+          git push origin ${{ env.NEW_VERSION }}
+
+      - name: Create the GitHub release for version ${{ env.NEW_VERSION }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "${{ env.NEW_VERSION }}" \
+            --generate-notes \
+            --latest
