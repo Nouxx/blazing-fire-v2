@@ -10,7 +10,7 @@ export const Footer = () => {
       fullWidth
       className="border-t mx-auto text-center text-xs gap-8 py-16"
     >
-      <Typography size="xs">version {appVersion}</Typography>
+      <Typography size="xs">version {appVersion} Im blue</Typography>
     </Flex>
   );
 };
