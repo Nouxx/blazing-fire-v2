@@ -1,0 +1,163 @@
+{
+  "config": {
+    "configFile": "/app/playwright-ct.config.ts",
+    "rootDir": "/app/components",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 2
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "open": "never",
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "playwright-report/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/app/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 2
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/app/components",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 10000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.52.0",
+    "workers": 2,
+    "webServer": null,
+    "@playwright/test": {
+      "packageJSON": "/app/node_modules/.pnpm/@playwright+experimental-ct-react@1.52.0_@types+node@22.10.2_jiti@1.21.7_vite@6.3.5_@ty_1815798142f0060350d9eb4052a1ef9c/node_modules/@playwright/experimental-ct-react/package.json",
+      "plugins": [
+        null
+      ],
+      "babelPlugins": [
+        [
+          "/app/node_modules/.pnpm/@playwright+experimental-ct-core@1.52.0_@types+node@22.10.2_jiti@1.21.7_yaml@2.7.1/node_modules/@playwright/experimental-ct-core/lib/tsxTransform.js"
+        ]
+      ]
+    },
+    "@playwright/experimental-ct-core": {
+      "registerSourceFile": "/app/node_modules/.pnpm/@playwright+experimental-ct-react@1.52.0_@types+node@22.10.2_jiti@1.21.7_vite@6.3.5_@ty_1815798142f0060350d9eb4052a1ef9c/node_modules/@playwright/experimental-ct-react/registerSource.mjs"
+    }
+  },
+  "suites": [
+    {
+      "title": "Header/Header.test.tsx",
+      "file": "Header/Header.test.tsx",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "AppHeader with logged in user",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 10000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 589,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-05-26T09:25:15.200Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ebf9a58a45c29682f57d-e9e3f05f48194b1c9df8",
+          "file": "Header/Header.test.tsx",
+          "line": 7,
+          "column": 5
+        },
+        {
+          "title": "AppHeader without user",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 10000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "chromium",
+              "projectName": "chromium",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 1,
+                  "status": "passed",
+                  "duration": 557,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-05-26T09:25:15.203Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "ebf9a58a45c29682f57d-1408404042c4d4c2ef4c",
+          "file": "Header/Header.test.tsx",
+          "line": 12,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-05-26T09:25:09.349Z",
+    "duration": 6714.255999999999,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
